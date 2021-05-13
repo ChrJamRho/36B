@@ -1,30 +1,36 @@
 <template>
   <div class="hello">
-<h1 v-show="calculateCurrentModuleIndex">HEADER:</h1>  
+  
+  <h1 v-show="calculateCurrentModuleIndex">HEADER:</h1>  
     <div class = 'module' v-show="dynamicModule">{{currentModule}}</div>
     <div class = 'lesson' v-show="dynamicLesson">{{currentLocation.lesson}}</div>
     <div class = 'exercise' v-show="dynamicExercise">{{currentLocation.content}}</div>
     
-            <!-- <div v-show="currentModule == 'Module A'">
-                    <button class= "moduleAButton" >Lesson 1</button>
-                    <button class= "moduleAButton">Lesson 2</button>
-                    <button class= "moduleAButton">Lesson 3</button>
-            </div> -->
-<h2>BODY:</h2>
-    <!-- for each module object in hierarchicalData, we make a button, which when clicked, sets the currentLocation to where we're going -->
+           
+  <h2>BODY:</h2>
+    <button 
+      v-for="mod in hierarchicalData" 
+      :key="mod" 
+      v-on:click="addCurrentLocationData('module', mod.moduleName)"
+      >
+      {{mod.moduleName}}
+    </button>
 
-    <!--
-      create a button with a v-for loop that 
-      -->
-    <button v-for="mod in hierarchicalData" :key="mod" v-on:click="addCurrentLocationData('module', mod.moduleName)">{{mod.moduleName}}</button>
+    <div v-if="hierarchicalData[currentModuleIndex]">
+      <button 
+        v-for="lessonContent in hierarchicalData[currentModuleIndex].lessons" 
+        :key="lessonContent" 
+        v-on:click="addCurrentLocationData('lesson', lessonContent.lessonName)"
+        >
+        {{lessonContent.lessonName}}
+      </button>
+    </div>
 
-
-    <!-- for each lesson object in hierarchicalData -> module A, we make a button, which when clicked, sets the currentLocation to where we're going -->
-<div v-if="hierarchicalData[currentModuleIndex]" >
-    <button v-for="lessonContent in hierarchicalData[currentModuleIndex].lessons" :key="lessonContent" v-on:click="addCurrentLocationData('lesson', lessonContent.lessonName)">{{lessonContent.lessonName}}</button>
-</div>
-
-
+    <!-- <div v-if="hierarchicalData[currentLessonIndex]">
+      <button
+      v-for
+      ></button>
+    </div> -->
 
   </div>
 </template>
@@ -43,9 +49,7 @@ export default {
    return {
      currentLocation: {},
      currentModuleIndex: undefined,
-    //  modulesArray: ['Module A','Module B','Module C','Module D','Module E'],
-    //  lessonArray: ['Lesson 1', 'Lesson 2', 'Lesson 3'],
-    
+     currentLessonIndex: undefined,
 
      hierarchicalData: 
      [
@@ -103,7 +107,6 @@ export default {
        },
       ], 
      userNumber: undefined,
-    //  moduleA: {lesson1: "Lesson 1", lesson2: "Lesson 2", lesson3: "Lesson 3"}
    }
  },
 
@@ -112,7 +115,9 @@ export default {
    currentModule(){
      return this.currentLocation.module
    },
-  
+   currentLesson(){
+     return this.currentLocation.lesson
+   },
    dynamicModule() {
      if(this.currentLocation.module){
      return true
@@ -142,6 +147,15 @@ export default {
         if (moduleObject.moduleName == this.currentModule){
           this.currentModuleIndex = index 
         } 
+        }
+        )
+        return true
+    },
+    calculateCurrentLessonIndex() {
+      this.hierarchicalData.forEach((lessonObject, index) => {
+        if (lessonObject.lessonName == this.currentLesson){
+          this.currentLessonIndex = index
+        }
         }
         )
         return true
