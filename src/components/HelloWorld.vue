@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
   
-  <h1 v-show="calculateCurrentModuleIndex">HEADER:</h1>  
-    <div class = 'module' v-show="dynamicModule">{{currentModule}}</div>
-    <div class = 'lesson' v-show="dynamicLesson">{{currentLocation.lesson}}</div>
-    <div class = 'exercise' v-show="dynamicExercise">{{currentLocation.content}}</div>
+    <button @click="goHome" v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex">HOME:</button>  
+    <button @click="goToModule" class = 'module' v-show="dynamicModule">{{currentLocation.module}}</button>
+    <button @click="goToLesson" class = 'lesson' v-show="dynamicLesson">{{currentLocation.lesson}}</button>
+    <button  class = 'exercise' v-show="dynamicExercise">{{currentLocation.exercise}}</button>
     
            
   <h2>BODY:</h2>
@@ -16,22 +16,25 @@
       {{mod.moduleName}}
     </button>
 
-    <div v-if="hierarchicalData[currentModuleIndex]">
+    <div v-if="currentModuleIndex !== undefined">
       <button 
-        v-for="lessonContent in hierarchicalData[currentModuleIndex].lessons" 
-        :key="lessonContent" 
-        v-on:click="addCurrentLocationData('lesson', lessonContent.lessonName)"
+        v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
+        :key="lesName" 
+        v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
         >
-        {{lessonContent.lessonName}}
+        {{lesName.lessonName}}
       </button>
     </div>
 
-    <!-- <div v-if="hierarchicalData[currentLessonIndex]">
+    <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined">
       <button
-      v-for
-      ></button>
-    </div> -->
-
+        v-for="content in hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
+        :key="content"
+        v-on:click="addCurrentLocationData('exercise', content)"
+        > 
+        {{content}}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -50,6 +53,8 @@ export default {
      currentLocation: {},
      currentModuleIndex: undefined,
      currentLessonIndex: undefined,
+
+     
 
      hierarchicalData: 
      [
@@ -135,7 +140,7 @@ export default {
      }
    },
    dynamicExercise() {
-     if(this.currentLocation.content) {
+     if(this.currentLocation.exercise) {
      return true
      }
      else{
@@ -152,20 +157,41 @@ export default {
         return true
     },
     calculateCurrentLessonIndex() {
-      this.hierarchicalData.forEach((lessonObject, index) => {
+    if (this.currentModuleIndex !== undefined) {
+        this.hierarchicalData[this.currentModuleIndex].lessons.forEach((lessonObject, index) => {
         if (lessonObject.lessonName == this.currentLesson){
           this.currentLessonIndex = index
         }
         }
         )
+        }
         return true
     }
  },
  methods: {
-
    addCurrentLocationData(newLocationHierarchy, newLocationValue) {
-      this.currentLocation[newLocationHierarchy] = newLocationValue
-      
+      this.currentLocation[newLocationHierarchy] = newLocationValue  
+   },
+   goHome() {
+    //  delete this.currentLocation.module;
+    //  delete this.currentLocation.lesson;
+    //  delete this.currentLocation.exercise;
+     this.currentLocation.module = undefined
+     this.currentModuleIndex = undefined
+     this.currentLocation.lesson = undefined
+     this.currentLessonIndex = undefined
+     this.currentLocation.exercise = undefined
+   },
+   goToModule() {
+    //  delete this.currentLocation.lesson;
+    //  delete this.currentLocation.exercise;
+     this.currentLocation.lesson  = undefined
+     this.currentLessonIndex = undefined
+      this.currentLocation.exercise = undefined
+   },
+   goToLesson() {
+    //  delete this.currentLocation.exercise;
+      this.currentLocation.exercise  = undefined
    }
 }
 }
