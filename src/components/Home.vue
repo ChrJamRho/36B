@@ -5,10 +5,11 @@
       :class="{ goldBtn: (currentLocation.module == undefined) }"
       @click="goHome" 
       v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex"
-      >HOME:
+      >HOME
     </button>  
 
     <button 
+      @click="goToModule"
       :class="{ goldBtn: (currentLocation.lesson == undefined) }"
       class = 'module' 
       v-show="dynamicModule"
@@ -39,6 +40,8 @@
         :key="mod" 
         v-on:click="addCurrentLocationData('module', mod.moduleName)"
         >
+        {{mod.moduleLetter}}
+        <br>
         {{mod.moduleName}}
       </button>
     </div>
@@ -89,7 +92,8 @@ export default {
      hierarchicalData: 
      [
        {
-        moduleName: 'MODULE A: FM HISTORY AND DOCTRINE',
+        moduleLetter: 'MODULE A',
+        moduleName: 'FM HISTORY AND DOCTRINE',
         lessons: 
         [
           {
@@ -135,7 +139,8 @@ export default {
         ]
        },
        {
-        moduleName: 'MODULE B: PAY SUPPORT',
+        moduleLetter: 'MODULE B',
+        moduleName: 'PAY SUPPORT',
         lessons: 
         [
           {
@@ -175,7 +180,8 @@ export default {
         ]
        },
        {
-        moduleName: 'MODULE C: BANKING AND DISPERSING',
+        moduleLetter: 'MODULE C',
+        moduleName: 'BANKING AND DISPERSING',
         lessons: 
         [
           {
@@ -253,7 +259,8 @@ export default {
         ]
        },
        {
-        moduleName: 'MODULE D: FUND THE FORCE',
+        moduleLetter: 'MODULE D',
+        moduleName: 'FUND THE FORCE',
         lessons: 
         [
           {
@@ -323,7 +330,8 @@ export default {
         ]
        },
        {
-        moduleName: 'Module E: PROFESSIONAL DEVELOPMENT',
+        moduleLetter: 'MODULE E',
+        moduleName: 'PROFESSIONAL DEVELOPMENT',
         lessons: 
         [
           {
@@ -424,10 +432,10 @@ export default {
    goToModule() {
      this.currentLocation.lesson  = undefined
      this.currentLessonIndex = undefined
-      this.currentLocation.exercise = undefined
+    this.currentLocation.exercise = undefined
    },
    goToLesson() {
-      this.currentLocation.exercise  = undefined
+    this.currentLocation.exercise  = undefined
    },
    
 }
