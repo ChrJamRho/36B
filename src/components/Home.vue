@@ -2,22 +2,21 @@
   <div class="hello">
   
     <button 
-      :style="style"
+      :class="{ goldBtn: (currentLocation.module == undefined) }"
       @click="goHome" 
       v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex"
       >HOME:
     </button>  
 
     <button 
-      :style="style"
-      @click="goToModule" 
+      :class="{ goldBtn: (currentLocation.lesson == undefined) }"
       class = 'module' 
       v-show="dynamicModule"
       >{{currentLocation.module}}
     </button>
 
     <button 
-      :style="style"
+      :class="{ goldBtn: (currentLocation.exercise == undefined) }"
       @click="goToLesson" 
       class = 'lesson' 
       v-show="dynamicLesson"
@@ -25,7 +24,7 @@
     </button>
 
     <button  
-      :style="style"
+      :class="{ goldBtn: (currentLocation.exercise !== undefined) }"
       class = 'exercise' 
       v-show="dynamicExercise"
       >{{currentLocation.exercise}}
@@ -33,16 +32,20 @@
     
            
   <h2>BODY:</h2>
-    <button 
-      v-for="mod in hierarchicalData" 
-      :key="mod" 
-      v-on:click="addCurrentLocationData('module', mod.moduleName)"
-      >
-      {{mod.moduleName}}
-    </button>
+    <div v-show="currentLocation.module == undefined">
+      <button
+        :class="'btn'"
+        v-for="mod in hierarchicalData" 
+        :key="mod" 
+        v-on:click="addCurrentLocationData('module', mod.moduleName)"
+        >
+        {{mod.moduleName}}
+      </button>
+    </div>
 
-    <div v-if="currentModuleIndex !== undefined">
-      <button 
+    <div v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined">
+      <button
+        :class="'btn'"
         v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
         :key="lesName" 
         v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
@@ -51,8 +54,9 @@
       </button>
     </div>
 
-    <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined">
+    <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined && currentLocation.exercise == undefined">
       <button
+        :class="'btn'"
         v-for="content in hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
         :key="content"
         v-on:click="addCurrentLocationData('exercise', content)"
@@ -75,10 +79,7 @@ export default {
   },
  data() {
    return {
-     style: {
-       color: 'white',
-       backgroundColor: 'black'
-     },
+    
 
      currentLocation: {},
      currentModuleIndex: undefined,
@@ -414,9 +415,6 @@ export default {
       this.currentLocation[newLocationHierarchy] = newLocationValue  
    },
    goHome() {
-    //  delete this.currentLocation.module;
-    //  delete this.currentLocation.lesson;
-    //  delete this.currentLocation.exercise;
      this.currentLocation.module = undefined
      this.currentModuleIndex = undefined
      this.currentLocation.lesson = undefined
@@ -424,16 +422,14 @@ export default {
      this.currentLocation.exercise = undefined
    },
    goToModule() {
-    //  delete this.currentLocation.lesson;
-    //  delete this.currentLocation.exercise;
      this.currentLocation.lesson  = undefined
      this.currentLessonIndex = undefined
       this.currentLocation.exercise = undefined
    },
    goToLesson() {
-    //  delete this.currentLocation.exercise;
       this.currentLocation.exercise  = undefined
-   }
+   },
+   
 }
 }
 
@@ -441,20 +437,32 @@ export default {
 
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
+}
+
+.goldBtn {
+  color: white;
+  background-color: #EBAD1B;
+}
+
+.btn:hover {
+  color: white;
+  background-color: #EBAD1B;
 }
 </style>
