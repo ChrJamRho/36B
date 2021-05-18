@@ -2,11 +2,16 @@
   <div class="container">
   
     <header class="navigation">
+      <button
+        @click="goHome"
+        >
+        HOME GRAPHIC SVG
+      </button>  
       <h1 class="title">{{title}}</h1>
       <button 
         :class="{ goldBtn: (currentLocation.module == undefined) }"
         @click="goHome" 
-        v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex"
+        v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex && !currentLocation.module"
         >
         Modules
       </button>  
