@@ -1,72 +1,78 @@
 <template>
-  <div class="hello">
+  <div class="container">
   
-    <button 
-      :class="{ goldBtn: (currentLocation.module == undefined) }"
-      @click="goHome" 
-      v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex"
-      >HOME
-    </button>  
+    <header class="navigation">
+      <h1 class="title">{{title}}</h1>
+      <button 
+        :class="{ goldBtn: (currentLocation.module == undefined) }"
+        @click="goHome" 
+        v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex"
+        >
+        Modules
+      </button>  
 
-    <button 
-      @click="goToModule"
-      :class="{ goldBtn: (currentLocation.lesson == undefined) }"
-      class = 'module' 
-      v-show="dynamicModule"
-      >{{currentLocation.module}}
-    </button>
+      <button 
+        @click="goToModule"
+        :class="{ goldBtn: (currentLocation.lesson == undefined) }"
+        class = 'module' 
+        v-show="dynamicModule"
+        >{{currentLocation.module}}
+      </button>
 
-    <button 
-      :class="{ goldBtn: (currentLocation.exercise == undefined) }"
-      @click="goToLesson" 
-      class = 'lesson' 
-      v-show="dynamicLesson"
-      >{{currentLocation.lesson}}
-    </button>
+      <button 
+        :class="{ goldBtn: (currentLocation.exercise == undefined) }"
+        @click="goToLesson" 
+        class = 'lesson' 
+        v-show="dynamicLesson"
+        >{{currentLocation.lesson}}
+      </button>
 
-    <button  
-      :class="{ goldBtn: (currentLocation.exercise !== undefined) }"
-      class = 'exercise' 
-      v-show="dynamicExercise"
-      >{{currentLocation.exercise}}
-    </button>
-    
+      <button  
+        :class="{ goldBtn: (currentLocation.exercise !== undefined) }"
+        class = 'exercise' 
+        v-show="dynamicExercise"
+        >{{currentLocation.exercise}}
+      </button>
+   </header> 
            
-  <h2>BODY:</h2>
-    <div v-show="currentLocation.module == undefined">
-      <button
-        :class="'btn'"
-        v-for="mod in hierarchicalData" 
-        :key="mod" 
-        v-on:click="addCurrentLocationData('module', mod.moduleName)"
-        >
-        {{mod.moduleLetter}}
-        <br>
-        {{mod.moduleName}}
-      </button>
-    </div>
+    <body class="content">
+      <div v-show="currentLocation.module == undefined">
+        <button
+          :class="'btn'"
+          v-for="mod in hierarchicalData" 
+          :key="mod" 
+          v-on:click="addCurrentLocationData('module', mod.moduleName)"
+          >
+          {{mod.moduleLetter}}
+          <br>
+          {{mod.moduleName}}
+        </button>
+      </div>
 
-    <div v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined">
-      <button
-        :class="'btn'"
-        v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
-        :key="lesName" 
-        v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
-        >
-        {{lesName.lessonName}}
-      </button>
-    </div>
+      <div v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined">
+        <button
+          :class="'btn'"
+          v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
+          :key="lesName" 
+          v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
+          >
+          {{lesName.lessonNumber}}
+          <br>
+          {{lesName.lessonName}}
+        </button>
+      </div>
 
-    <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined && currentLocation.exercise == undefined">
-      <button
-        :class="'btn'"
-        v-for="content in hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
-        :key="content"
-        v-on:click="addCurrentLocationData('exercise', content)"
-        > 
-        {{content}}
-      </button>
-    </div>
+      <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined && currentLocation.exercise == undefined">
+        <button
+          :class="'btn'"
+          v-for="content in hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
+          :key="content"
+          v-on:click="addCurrentLocationData('exercise', content)"
+          > 
+          {{content}}
+        </button>
+      </div>
+    </body>
   </div>
 </template>
 
@@ -97,7 +103,8 @@ export default {
         lessons: 
         [
           {
-            lessonName: 'LESSON ONE: BRIEF THE HISTORY OF FINCANCE AND COMPTROLLER CORPS',
+            lessonNumber: 'LESSON ONE',
+            lessonName: 'BRIEF THE HISTORY OF FINCANCE AND COMPTROLLER CORPS',
             lessonContent: [
               'PE 1',
               'PE 2',
@@ -105,7 +112,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON TWO: CONDUCT FINANCIAL AND COMPTROLLER MUSEUM VISIT AND SCHOOL VISIT',
+            lessonNumber: 'LESSON TWO',
+            lessonName: 'CONDUCT FINANCIAL AND COMPTROLLER MUSEUM VISIT AND SCHOOL VISIT',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -113,7 +121,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON THREE: COMMUNICATE THE IMPORTANCE OF SRC-14 ORGANIZATIONAL UNITS AND POSITIONS',
+            lessonNumber: 'LESSON THREE',
+            lessonName: 'COMMUNICATE THE IMPORTANCE OF SRC-14 ORGANIZATIONAL UNITS AND POSITIONS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -121,7 +130,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FOUR: COMMUNICATE THE IMPORTANCE OF DOD FINANCIAL PUBLICATIONS',
+            lessonNumber: 'LESSON FOUR',
+            lessonName: 'COMMUNICATE THE IMPORTANCE OF DOD FINANCIAL PUBLICATIONS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -129,7 +139,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FIVE: ORIENT SOLDIER TO THE FINANCE MANAGEMENT TECHNICIAN COURSE',
+            lessonNumber: 'LESSON FIVE',
+            lessonName: 'ORIENT SOLDIER TO THE FINANCE MANAGEMENT TECHNICIAN COURSE',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -144,7 +155,8 @@ export default {
         lessons: 
         [
           {
-            lessonName: 'LESSON ONE: INTERPRET DODFMR VOL 7A, JTR, MPPM, AND PAY INQUIRY',
+            lessonNumber: 'LESSON ONE',
+            lessonName: 'INTERPRET DODFMR VOL 7A, JTR, MPPM, AND PAY INQUIRY',
             lessonContent: [
               'PE 1',
               'PE 2',
@@ -152,7 +164,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON TWO: RECOGNIZE ELEMENTS OF MILITARY PAY SUPPORT',
+            lessonNumber: 'LESSON TWO',
+            lessonName: 'RECOGNIZE ELEMENTS OF MILITARY PAY SUPPORT',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -160,7 +173,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON THREE: IDENTIFY PAY AND ALLOWANCES',
+            lessonNumber: 'LESSON THREE',
+            lessonName: 'IDENTIFY PAY AND ALLOWANCES',
             lessonContent: [
               'PE 1',
               'PE 2',
@@ -170,7 +184,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FOUR: PROGRESS TRANSACTIONS FOR RC SOLDIERS',
+            lessonNumber: 'LESSON FOUR',
+            lessonName: 'PROGRESS TRANSACTIONS FOR RC SOLDIERS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -185,7 +200,8 @@ export default {
         lessons: 
         [
           {
-            lessonName: 'LESSON ONE: RECOGNIZE ELEMENTS OF DISBURSING AND INTERPRET DODFMR VOL 5',
+            lessonNumber: 'LESSON ONE',
+            lessonName: 'RECOGNIZE ELEMENTS OF DISBURSING AND INTERPRET DODFMR VOL 5',
             lessonContent: [
               'PE 1',
               'PE 2',
@@ -193,7 +209,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON TWO: RECEIVE FUNDS AS A CASHIER',
+            lessonNumber: 'LESSON TWO',
+            lessonName: 'RECEIVE FUNDS AS A CASHIER',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -201,7 +218,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON THREE: IDENTIFY DISBURSEMENT VOUCHERS',
+            lessonNumber: 'LESSON THREE',
+            lessonName: 'IDENTIFY DISBURSEMENT VOUCHERS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -209,7 +227,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FOUR: IDENTIFY COLLECTION VOUCHERS',
+            lessonNumber: 'LESSON FOUR',
+            lessonName: 'IDENTIFY COLLECTION VOUCHERS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -217,7 +236,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FIVE: RECORD EXCANGE TRANSACTIONS',
+            lessonNumber: 'LESSON FIVE',
+            lessonName: 'RECORD EXCANGE TRANSACTIONS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -225,7 +245,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON SIX: CONDUCT DISBURSING CLOSING PROCEDURES',
+            lessonNumber: 'LESSON SIX',
+            lessonName: 'CONDUCT DISBURSING CLOSING PROCEDURES',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -233,7 +254,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON SEVEN: INPUT DISBURSING TRANSACTIONS INTO DDS',
+            lessonNumber: 'LESSON SEVEN',
+            lessonName: 'INPUT DISBURSING TRANSACTIONS INTO DDS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -241,7 +263,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON EIGHT: PRECESS ECOMMERCE TRANSACTIONS - LAB DDS/ECC/ PREPARE STORED VALUE CARD',
+            lessonNumber: 'LESSON EIGHT',
+            lessonName: 'PRECESS ECOMMERCE TRANSACTIONS - LAB DDS/ECC/ PREPARE STORED VALUE CARD',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -249,7 +272,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON NINE: CONDUCT DISBURSING CLOSING PROCEDURES IN DDS',
+            lessonNumber: 'LESSON NINE',
+            lessonName: 'CONDUCT DISBURSING CLOSING PROCEDURES IN DDS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -264,7 +288,8 @@ export default {
         lessons: 
         [
           {
-            lessonName: 'LESSON ONE: RECOGNIZE ELEMNTS OF CVS',
+            lessonNumber: 'LESSON ONE',
+            lessonName: 'RECOGNIZE ELEMNTS OF CVS',
             lessonContent: [
               'PE 1',
               'PE 2',
@@ -272,7 +297,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON TWO: COMMUNICATE TEH IMPORTANCE OF FISCAL STWARDSHIP',
+            lessonNumber: 'LESSON TWO',
+            lessonName: 'COMMUNICATE TEH IMPORTANCE OF FISCAL STWARDSHIP',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -280,7 +306,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON THREE: COMPLETE ALMS GFEBS ESSENTIALS TRAINING',
+            lessonNumber: 'LESSON THREE',
+            lessonName: 'COMPLETE ALMS GFEBS ESSENTIALS TRAINING',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -288,7 +315,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FOUR: IDENTIFY MASTER DATA ELEMENTS',
+            lessonNumber: 'LESSON FOUR',
+            lessonName: 'IDENTIFY MASTER DATA ELEMENTS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -296,7 +324,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON FIVE: MAINAIN CVS DOCUMENTS',
+            lessonNumber: 'LESSON FIVE',
+            lessonName: 'MAINTAIN CVS DOCUMENTS',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -304,7 +333,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON SIX: PREPARE ACCOUNTS PAYABLE VOUCERS FOR PAYMENT',
+            lessonNumber: 'LESSON SIX',
+            lessonName: 'PREPARE ACCOUNTS PAYABLE VOUCERS FOR PAYMENT',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -312,7 +342,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON SEVEN: PREPARE MISCELLANEOUS VOUCHERFS FOR PAYMENT',
+            lessonNumber: 'LESSON SEVEN',
+            lessonName: 'PREPARE MISCELLANEOUS VOUCHERFS FOR PAYMENT',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -320,7 +351,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON EIGHT: PERFORM BASIC GFEBS NAVIGATION',
+            lessonNumber: 'LESSON EIGHT',
+            lessonName: 'PERFORM BASIC GFEBS NAVIGATION',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -335,7 +367,8 @@ export default {
         lessons: 
         [
           {
-            lessonName: 'LESSON ONE: COMPLETE FM CERTIFICATION DOD 101 COURSES',
+            lessonNumber: 'LESSON ONE',
+            lessonName: 'COMPLETE FM CERTIFICATION DOD 101 COURSES',
             lessonContent: [
               'PE 1',
               'PE 2',
@@ -343,7 +376,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON TWO: WRITE EFFECTIVELY USING THE BASIC ARMY WRITING CORRESPONDANCE',
+            lessonNumber: 'LESSON TWO',
+            lessonName: 'WRITE EFFECTIVELY USING THE BASIC ARMY WRITING CORRESPONDANCE',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -351,7 +385,8 @@ export default {
             ]
           },
           {
-            lessonName: 'LESSON THREE: DEFINE THE PRINCIPLES OF MENTORSHIP',
+            lessonNumber: 'LESSON THREE',
+            lessonName: 'DEFINE THE PRINCIPLES OF MENTORSHIP',
             lessonContent: [
               'Slides 1',
               'Slides 2',
@@ -366,6 +401,21 @@ export default {
  },
 
  computed: {
+
+   title(){
+     var titleText = ''
+     if (this.currentLocation.module == undefined) {
+       titleText = '36B AIT'
+     } else if (this.currentLocation.module && this.currentLocation.lesson == undefined) {
+       titleText = this.currentLocation.module
+     } else if (this.currentLocation.module && this.currentLocation.lesson && this.currentLocation.exercise == undefined) {
+       titleText = this.currentLocation.lesson
+     } else if (this.currentLocation.module && this.currentLocation.lesson && this.currentLocation.exercise) {
+       titleText = this.currentLocation.exercise
+     } else {
+       titleText = 'Could Not Determine Title'
+     } return titleText
+   },
 
    currentModule(){
      return this.currentLocation.module
@@ -446,31 +496,52 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #222222;
+  width: 100%;
+  height: 100%;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.title {
+  color: #FFFFFF;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+  padding: 3% 3%;
+  border-bottom: solid #EBAD1B;
+  height: 15vh;
 }
 
-a {
-  color: #42b983;
+.navigation,
+.title {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin: auto;
+  height: 85vh;
+}
+
+.btn {
+  display: flex;
+  flex-direction: column;
 }
 
 .goldBtn {
-  color: white;
+  color: #FFFFFF;
   background-color: #EBAD1B;
 }
 
 .btn:hover {
-  color: white;
+  color: #FFFFFF;
   background-color: #EBAD1B;
 }
 </style>
