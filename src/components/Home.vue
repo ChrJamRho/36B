@@ -2,13 +2,15 @@
   <div class="container">
   
     <header class="navigation">
-      <button
-        @click="goHome"
-        >
-        HOME GRAPHIC SVG
-      </button>  
-      <h1 class="title">{{title}}</h1>
       <button 
+        class="home"
+        @click="goHome"
+        > 
+        Home
+      </button>  
+      <h3 class="title">{{title}}</h3>
+      <button 
+        class="module-home"
         :class="{ goldBtn: (currentLocation.module == undefined) }"
         @click="goHome" 
         v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex && !currentLocation.module"
@@ -41,6 +43,7 @@
    </header> 
            
     <body class="content">
+      <div class="button-container">
       <div v-show="currentLocation.module == undefined">
         <button
           :class="'btn'"
@@ -76,6 +79,7 @@
           > 
           {{content}}
         </button>
+      </div>
       </div>
     </body>
   </div>
@@ -501,48 +505,73 @@ export default {
 </script>
 
 <style scoped>
+
 .container {
   display: flex;
   flex-direction: column;
   background-color: #222222;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .title {
   color: #FFFFFF;
+  background: none;
+  border: none;
 }
 
-.navigation {
-  display: flex;
-  justify-content: flex-start;
-  padding: 3% 3%;
-  border-bottom: solid #EBAD1B;
-  height: 15vh;
-}
+header.navigation {
+  border-bottom: .75vh solid #EBAD1B;
+  width: 100vw;
+  height: 17.5vh;
 
-.navigation,
-.title {
-  display: flex;
-  flex-direction: column;
 }
 
 .content {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
   margin: auto;
-  height: 85vh;
+  height: 82.5vh;
+  background-color: #333232;
+  width: 100vw;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin-top: 5%;
+  height: 55vh;
+  background-color: #3F3F3F;
+  min-width: 60vw;
+  border-radius: .25em;
+}
+
+button {
+  background: none;
+  border: none;
+  color: #FFFFFF;
 }
 
 .btn {
   display: flex;
   flex-direction: column;
+  border: none;
+  border-radius: 1.25em;
+  background-color: #222222;
+  color: #FFFFFF;
+  margin: auto; 
+  margin-top: 1.25%;
+  padding: 1.75%;
+  width: 68%;
 }
 
 .goldBtn {
-  color: #FFFFFF;
-  background-color: #EBAD1B;
+  color: #EBAD1B;
+  background: none;
+  border: none;
 }
 
 .btn:hover {
