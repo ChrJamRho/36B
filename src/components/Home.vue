@@ -6,7 +6,7 @@
         class="home"
         @click="goHome"
         > 
-        Home
+        <img alt="Home" :src="require('@/assets/outline_home_white_24dp.png')">
       </button>  
       <h3 class="title">{{title}}</h3>
       <button 
@@ -20,24 +20,21 @@
 
       <button 
         @click="goToModule"
-        :class="{ goldBtn: (currentLocation.lesson == undefined) }"
-        class = 'module' 
-        v-show="dynamicModule"
-        >{{currentLocation.module}}
+        :class="{ goldBtn: (currentLocation.lesson == undefined) }"        
+        v-if="dynamicModule && hierarchicalData[currentModuleIndex]"
+        >{{hierarchicalData[currentModuleIndex].moduleLetter}}
       </button>
 
       <button 
         :class="{ goldBtn: (currentLocation.exercise == undefined) }"
         @click="goToLesson" 
-        class = 'lesson' 
-        v-show="dynamicLesson"
-        >{{currentLocation.lesson}}
+        v-if="dynamicLesson && hierarchicalData[currentModuleIndex].lessons[currentLessonIndex]"
+        >{{hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonNumber}}
       </button>
 
       <button  
         :class="{ goldBtn: (currentLocation.exercise !== undefined) }"
-        class = 'exercise' 
-        v-show="dynamicExercise"
+        v-if="dynamicExercise && hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
         >{{currentLocation.exercise}}
       </button>
    </header> 
@@ -50,8 +47,10 @@
           v-for="mod in hierarchicalData" 
           :key="mod" 
           v-on:click="addCurrentLocationData('module', mod.moduleName)"
-          >
+          > 
+          <div class="module-letter">
           {{mod.moduleLetter}}
+          </div>
           <br>
           {{mod.moduleName}}
         </button>
@@ -520,11 +519,16 @@ export default {
   border: none;
 }
 
+/* .title,
+.home,
+.module-home {
+
+} */
+
 header.navigation {
   border-bottom: .75vh solid #EBAD1B;
   width: 100vw;
-  height: 17.5vh;
-
+  height: 15vh;
 }
 
 .content {
@@ -532,7 +536,7 @@ header.navigation {
   align-content: center;
   justify-content: center;
   margin: auto;
-  height: 82.5vh;
+  height: 85vh;
   background-color: #333232;
   width: 100vw;
 }
@@ -574,8 +578,14 @@ button {
   border: none;
 }
 
+.module-home {
+  color: #FFFFFF;
+}
+
 .btn:hover {
   color: #FFFFFF;
   background-color: #EBAD1B;
 }
+
+/* inlineblock, displayinline, inlineflex */
 </style>
