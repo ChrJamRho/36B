@@ -34,6 +34,10 @@
       </button>
       </div>
 
+      <p class="dash"
+      :class="{ goldBtn: (currentLocation.lesson == undefined) }"        
+        v-if="dynamicModule && hierarchicalData[currentModuleIndex]"> -</p>
+
       <div class="lesson-btn">
       <button 
         :class="{ goldBtn: (currentLocation.exercise == undefined) }"
@@ -42,6 +46,11 @@
         >{{hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonNumber}}
       </button>
       </div>
+
+      <p class="dash"
+      :class="{ goldBtn: (currentLocation.exercise == undefined) }"
+        @click="goToLesson" 
+        v-if="dynamicLesson && hierarchicalData[currentModuleIndex].lessons[currentLessonIndex]"> -</p>
 
       <div class="exercise-btn">
       <button  
@@ -77,8 +86,9 @@
           {{mod.moduleLetter}}
           </div>
           <br>
-          
+          <div class="second-line">
           {{mod.moduleName}}
+          </div>
           </div>
         </button>
       </div>
@@ -91,11 +101,13 @@
           v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
           >
           <div class="lesson-number">
-            <div class="gold-letter">
+            
           {{lesName.lessonNumber}}
-          </div>
+        
           <br>
+          <div class="second-line">
           {{lesName.lessonName}}
+          </div>
           </div>
         </button>
       </div>
@@ -109,11 +121,13 @@
           v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
           >
           <div class="lesson-number">
-            <div class="gold-letter">
+            
           {{lesName.lessonNumber}}
-          </div>
+          
           <br>
+          <div class="second-line">
           {{lesName.lessonName}}
+          </div>
           </div>
         </button>
       </div>
@@ -634,9 +648,9 @@ export default {
   letter-spacing: .30rem;
 }
 
-.gold-letter {
+/* .gold-letter {
   color: #EBAD1B;
-}
+} */
 
 .gold-letter:hover {
   color: black;
@@ -671,6 +685,7 @@ header.navigation {
 }
 
 .button-container {
+
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -694,7 +709,7 @@ button {
   border: none;
   border-radius: 1.25em;
   background-color: #222222;
-  color: #FFFFFF;
+  color: #EBAD1B;
   margin: auto; 
   margin-top: 1.25%;
   padding: .5%;
@@ -724,6 +739,7 @@ button {
   flex-direction: column;
   margin: auto;
   font-weight: bold;
+  color: #FFFFFF;
 }
 
 .goldBtn {
@@ -739,8 +755,19 @@ button {
 }
 
 .btn:hover {
-  color: #FFFFFF;
   background-color: #EBAD1B;
+  color: black;
+  
+}
+
+.second-line{
+  color: #FFFFFF
+}
+
+.dash{
+  color:#FFFFFF;
+  padding-right: 1%;
+  /* padding-left: 1%; */
 }
 
 /* .btn-split {
