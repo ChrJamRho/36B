@@ -58,12 +58,16 @@
         </div>
 
    </header> 
+
+
+
+
            
     <body class="content">
       <div class="button-container">
       <div v-show="currentLocation.module == undefined">
         <button
-          :class="'btn'"
+          class="btn"
           v-for="mod in hierarchicalData" 
           :key="mod" 
           v-on:click="addCurrentLocationData('module', mod.moduleName)"
@@ -78,10 +82,10 @@
           </div>
         </button>
       </div>
-  <div class="" v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined && hierarchicalData[currentModuleIndex].lessons.length < 6  ">
+  <div class="" v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined && hierarchicalData[currentModuleIndex].lessons.length <= 5  ">
       <div>
         <button
-          :class="'btn'"
+          class="btn"
           v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
           :key="lesName" 
           v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
@@ -91,17 +95,15 @@
           {{lesName.lessonNumber}}
           </div>
           <br>
-          <!-- <div class="lesson-name"> -->
           {{lesName.lessonName}}
           </div>
         </button>
       </div>
       </div>
 
-      <div class="" v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined && hierarchicalData[currentModuleIndex].lessons.length >= 6">
-      <div class="two-columns">
+      <div class="two-columns" v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined && hierarchicalData[currentModuleIndex].lessons.length > 5 "> 
         <button
-          :class="'btn'"
+          class="btn"
           v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
           :key="lesName" 
           v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
@@ -111,16 +113,14 @@
           {{lesName.lessonNumber}}
           </div>
           <br>
-          <!-- <div class="lesson-name"> -->
           {{lesName.lessonName}}
           </div>
         </button>
-      </div>
       </div>
 
       <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined && currentLocation.exercise == undefined">
         <button
-          :class="'btn'"
+          class="btn"
           v-for="content in hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
           :key="content"
           v-on:click="addCurrentLocationData('exercise', content)"
@@ -470,7 +470,7 @@ export default {
      } else if (this.currentLocation.module && this.currentLocation.lesson && this.currentLocation.exercise == undefined) {
        titleText = this.currentLocation.lesson
      } else if (this.currentLocation.module && this.currentLocation.lesson && this.currentLocation.exercise) {
-       titleText = this.currentLocation.exercise
+       titleText = this.currentLocation.lesson
      } else {
        titleText = 'Could Not Determine Title'
      } return titleText
@@ -525,7 +525,13 @@ export default {
         )
         }
         return true
-    }
+    },
+    // btnColumb() {
+    //   let btnId = document.getElementById('btn');
+    //   if (btnId.length >= 6) {
+
+    //   }
+    // },
  },
  methods: {
    addCurrentLocationData(newLocationHierarchy, newLocationValue) {
@@ -631,6 +637,7 @@ export default {
 .gold-letter {
   color: #EBAD1B;
 }
+
 .gold-letter:hover {
   color: black;
 }
@@ -695,7 +702,7 @@ button {
 }
 
 .two-columns{
-  
+  column-count: 2;
 }
 
 .module-letter{
@@ -735,6 +742,13 @@ button {
   color: #FFFFFF;
   background-color: #EBAD1B;
 }
+
+/* .btn-split {
+  column-count: 2;
+} */
+
+
+
 
 /* inlineblock, displayinline, inlineflex */
 </style>
