@@ -34,6 +34,10 @@
       </button>
       </div>
 
+      <p class="dash"
+      :class="{ goldBtn: (currentLocation.lesson == undefined) }"        
+        v-if="dynamicModule && hierarchicalData[currentModuleIndex]"> -</p>
+
       <div class="lesson-btn">
       <button 
         :class="{ goldBtn: (currentLocation.exercise == undefined) }"
@@ -42,6 +46,11 @@
         >{{hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonNumber}}
       </button>
       </div>
+
+      <p class="dash"
+      :class="{ goldBtn: (currentLocation.exercise == undefined) }"
+        @click="goToLesson" 
+        v-if="dynamicLesson && hierarchicalData[currentModuleIndex].lessons[currentLessonIndex]"> -</p>
 
       <div class="exercise-btn">
       <button  
@@ -730,6 +739,7 @@ button {
   flex-direction: column;
   margin: auto;
   font-weight: bold;
+  color: #FFFFFF;
 }
 
 .goldBtn {
@@ -752,6 +762,12 @@ button {
 
 .second-line{
   color: #FFFFFF
+}
+
+.dash{
+  color:#FFFFFF;
+  padding-right: 1%;
+  /* padding-left: 1%; */
 }
 
 /* .btn-split {
