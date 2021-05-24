@@ -2,12 +2,17 @@
   <div class="container">
   
     <header class="navigation">
+      <div class="home-logo">
       <button 
         class="home"
         @click="goHome"
         > 
-        <img alt="Home" :src="require('@/assets/outline_home_white_24dp.png')">
+        <img class="home" :src="require('@/assets/outline_home_white_24dp.png')">
       </button>  
+      </div>
+      
+      
+      <div class="header">
       <h3 class="title">{{title}}</h3>
       <button 
         class="module-home"
@@ -15,28 +20,43 @@
         @click="goHome" 
         v-show="calculateCurrentModuleIndex && calculateCurrentLessonIndex && !currentLocation.module"
         >
-        Modules
+        MODULES
       </button>  
+      
 
+      <div class="nav-buttons">
+      <div class="module-btn">
       <button 
         @click="goToModule"
         :class="{ goldBtn: (currentLocation.lesson == undefined) }"        
         v-if="dynamicModule && hierarchicalData[currentModuleIndex]"
         >{{hierarchicalData[currentModuleIndex].moduleLetter}}
       </button>
+      </div>
 
+      <div class="lesson-btn">
       <button 
         :class="{ goldBtn: (currentLocation.exercise == undefined) }"
         @click="goToLesson" 
         v-if="dynamicLesson && hierarchicalData[currentModuleIndex].lessons[currentLessonIndex]"
         >{{hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonNumber}}
       </button>
+      </div>
 
+      <div class="exercise-btn">
       <button  
         :class="{ goldBtn: (currentLocation.exercise !== undefined) }"
         v-if="dynamicExercise && hierarchicalData[currentModuleIndex].lessons[currentLessonIndex].lessonContent"
         >{{currentLocation.exercise}}
       </button>
+      </div>
+      </div>
+      </div>
+      
+      <div class="crest">
+        <img class="crest-logo" :src="require('@/assets/fmSchoolCrest.png')" />
+        </div>
+
    </header> 
            
     <body class="content">
@@ -49,24 +69,53 @@
           v-on:click="addCurrentLocationData('module', mod.moduleName)"
           > 
           <div class="module-letter">
+            <div class="gold-letter">
           {{mod.moduleLetter}}
           </div>
           <br>
+          
           {{mod.moduleName}}
+          </div>
         </button>
       </div>
-
-      <div v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined">
+  <div class="" v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined && hierarchicalData[currentModuleIndex].lessons.length < 6  ">
+      <div>
         <button
           :class="'btn'"
           v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
           :key="lesName" 
           v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
           >
+          <div class="lesson-number">
+            <div class="gold-letter">
           {{lesName.lessonNumber}}
+          </div>
           <br>
+          <!-- <div class="lesson-name"> -->
           {{lesName.lessonName}}
+          </div>
         </button>
+      </div>
+      </div>
+
+      <div class="" v-if="currentModuleIndex !== undefined && currentLocation.lesson == undefined && hierarchicalData[currentModuleIndex].lessons.length >= 6">
+      <div class="two-columns">
+        <button
+          :class="'btn'"
+          v-for="lesName in hierarchicalData[currentModuleIndex].lessons" 
+          :key="lesName" 
+          v-on:click="addCurrentLocationData('lesson', lesName.lessonName)"
+          >
+          <div class="lesson-number">
+            <div class="gold-letter">
+          {{lesName.lessonNumber}}
+          </div>
+          <br>
+          <!-- <div class="lesson-name"> -->
+          {{lesName.lessonName}}
+          </div>
+        </button>
+      </div>
       </div>
 
       <div v-if="currentModuleIndex !== undefined && currentLessonIndex !== undefined && currentLocation.exercise == undefined">
@@ -76,7 +125,9 @@
           :key="content"
           v-on:click="addCurrentLocationData('exercise', content)"
           > 
+          <div class="exercise">
           {{content}}
+          </div>
         </button>
       </div>
       </div>
@@ -123,8 +174,8 @@ export default {
             lessonNumber: 'LESSON TWO',
             lessonName: 'CONDUCT FINANCIAL AND COMPTROLLER MUSEUM VISIT AND SCHOOL VISIT',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -132,8 +183,8 @@ export default {
             lessonNumber: 'LESSON THREE',
             lessonName: 'COMMUNICATE THE IMPORTANCE OF SRC-14 ORGANIZATIONAL UNITS AND POSITIONS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -141,8 +192,8 @@ export default {
             lessonNumber: 'LESSON FOUR',
             lessonName: 'COMMUNICATE THE IMPORTANCE OF DOD FINANCIAL PUBLICATIONS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -150,8 +201,8 @@ export default {
             lessonNumber: 'LESSON FIVE',
             lessonName: 'ORIENT SOLDIER TO THE FINANCE MANAGEMENT TECHNICIAN COURSE',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           }
@@ -175,8 +226,8 @@ export default {
             lessonNumber: 'LESSON TWO',
             lessonName: 'RECOGNIZE ELEMENTS OF MILITARY PAY SUPPORT',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -195,8 +246,8 @@ export default {
             lessonNumber: 'LESSON FOUR',
             lessonName: 'PROGRESS TRANSACTIONS FOR RC SOLDIERS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           }
@@ -220,8 +271,8 @@ export default {
             lessonNumber: 'LESSON TWO',
             lessonName: 'RECEIVE FUNDS AS A CASHIER',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -229,8 +280,8 @@ export default {
             lessonNumber: 'LESSON THREE',
             lessonName: 'IDENTIFY DISBURSEMENT VOUCHERS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -238,8 +289,8 @@ export default {
             lessonNumber: 'LESSON FOUR',
             lessonName: 'IDENTIFY COLLECTION VOUCHERS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -247,8 +298,8 @@ export default {
             lessonNumber: 'LESSON FIVE',
             lessonName: 'RECORD EXCANGE TRANSACTIONS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -256,8 +307,8 @@ export default {
             lessonNumber: 'LESSON SIX',
             lessonName: 'CONDUCT DISBURSING CLOSING PROCEDURES',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -265,8 +316,8 @@ export default {
             lessonNumber: 'LESSON SEVEN',
             lessonName: 'INPUT DISBURSING TRANSACTIONS INTO DDS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -274,8 +325,8 @@ export default {
             lessonNumber: 'LESSON EIGHT',
             lessonName: 'PRECESS ECOMMERCE TRANSACTIONS - LAB DDS/ECC/ PREPARE STORED VALUE CARD',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -283,8 +334,8 @@ export default {
             lessonNumber: 'LESSON NINE',
             lessonName: 'CONDUCT DISBURSING CLOSING PROCEDURES IN DDS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           }
@@ -308,8 +359,8 @@ export default {
             lessonNumber: 'LESSON TWO',
             lessonName: 'COMMUNICATE TEH IMPORTANCE OF FISCAL STWARDSHIP',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -317,8 +368,8 @@ export default {
             lessonNumber: 'LESSON THREE',
             lessonName: 'COMPLETE ALMS GFEBS ESSENTIALS TRAINING',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -326,8 +377,8 @@ export default {
             lessonNumber: 'LESSON FOUR',
             lessonName: 'IDENTIFY MASTER DATA ELEMENTS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -335,8 +386,8 @@ export default {
             lessonNumber: 'LESSON FIVE',
             lessonName: 'MAINTAIN CVS DOCUMENTS',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -344,8 +395,8 @@ export default {
             lessonNumber: 'LESSON SIX',
             lessonName: 'PREPARE ACCOUNTS PAYABLE VOUCERS FOR PAYMENT',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -353,8 +404,8 @@ export default {
             lessonNumber: 'LESSON SEVEN',
             lessonName: 'PREPARE MISCELLANEOUS VOUCHERFS FOR PAYMENT',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -362,8 +413,8 @@ export default {
             lessonNumber: 'LESSON EIGHT',
             lessonName: 'PERFORM BASIC GFEBS NAVIGATION',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           }
@@ -387,8 +438,8 @@ export default {
             lessonNumber: 'LESSON TWO',
             lessonName: 'WRITE EFFECTIVELY USING THE BASIC ARMY WRITING CORRESPONDANCE',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -396,8 +447,8 @@ export default {
             lessonNumber: 'LESSON THREE',
             lessonName: 'DEFINE THE PRINCIPLES OF MENTORSHIP',
             lessonContent: [
-              'Slides 1',
-              'Slides 2',
+              'SLIDES 1',
+              'SLIDES 2',
               'PE 1'
             ]
           },
@@ -505,6 +556,10 @@ export default {
 
 <style scoped>
 
+.navigation {
+  display: flex;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -513,20 +568,87 @@ export default {
   height: 100vh;
 }
 
+.home-logo{
+  padding: 2%;
+  place-items: center;
+  border: none;
+  background: none;
+  margin-top: 1%;
+}
+
+.home {
+  
+  display: inline-flex;
+  align-items: center;
+  width: 45px;
+  height: auto;
+  border: none;
+  background: none;
+}
+
+.header {
+  padding: 2%;
+  width: 300%;
+}
+
 .title {
+  font-family: Arial, Helvetica, sans-serif;
   color: #FFFFFF;
   background: none;
   border: none;
+  font-size: 2.25vmin;
+  font-weight: bold;
+  letter-spacing: .30rem;
+  margin-top: 1.5%;
+  /* white-space: nowrap; */
 }
 
-/* .title,
-.home,
-.module-home {
+.nav-buttons{
+  display: flex;
+  flex-direction: row;
+}
 
-} */
+.module-btn {
+  font-family: Arial;
+  margin-right: 1%;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: .30rem;
+}
+
+.lesson-btn{
+  font-family: Arial;
+  margin-right: 1%;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: .30rem;
+}
+
+.exercise-btn {
+  font-family: Arial;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: .30rem;
+}
+
+.gold-letter {
+  color: #EBAD1B;
+}
+.gold-letter:hover {
+  color: black;
+}
+
+.crest {
+  display: inline-flex;
+  align-content: center;
+  padding: 1.45%
+}
+
+.crest-logo {
+  width: 85px;
+  height: 85px;
+  
+}
 
 header.navigation {
-  border-bottom: .75vh solid #EBAD1B;
+  border-bottom: .75vh solid #644805;
   width: 100vw;
   height: 15vh;
 }
@@ -568,8 +690,33 @@ button {
   color: #FFFFFF;
   margin: auto; 
   margin-top: 1.25%;
-  padding: 1.75%;
+  padding: .5%;
   width: 68%;
+}
+
+.two-columns{
+  
+}
+
+.module-letter{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  font-weight: bold;
+}
+
+.lesson-number {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  font-weight: bold;
+}
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  font-weight: bold;
 }
 
 .goldBtn {
@@ -580,6 +727,8 @@ button {
 
 .module-home {
   color: #FFFFFF;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: .15rem;
 }
 
 .btn:hover {
